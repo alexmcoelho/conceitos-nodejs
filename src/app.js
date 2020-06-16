@@ -56,13 +56,13 @@ app.put(
   const { id } = request.params;
   const { title, url, techs } = request.body;
 
-  let repository = repositories.find(repository => repository.id === id);
-  if(!repository) {
+  const index = repositories.findIndex(repository => repository.id === id);
+  if(index < 0) {
     return response.status(400).send();
   }
-  repository = { ...repository, title, url, techs };
+  repositories[index] = { ...repositories[index], title, url, techs };
 
-  return response.json(repository);
+  return response.json(repositories[index]);
 });
 
 app.delete("/repositories/:id", (request, response) => {
